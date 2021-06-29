@@ -11,7 +11,7 @@ class App {
 	public MONGODB: string;
 	public io: SocketServer;
 	public server: Server;
-  public port: string;
+  	public port: string;
   
   constructor() {
 		dotenv.config();
