@@ -1,23 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { io } from "socket.io-client";
 
 function App() {
+  const server_url : any = process.env.REACT_APP_NODEURL;
+  const socket = io(server_url);
+  socket.emit("sendchat", "test emit");
+
+  socket.on("chat", (chat) => {
+    console.log(chat);
+    const mydiv : any = document.getElementById("chat-box");
+    mydiv.innerHTML += "<p>" + chat + "</p>";
+  });
+  
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="chat-box" id="chat-box"></div>
+        <div>
+          <input type="text" className="name" placeholder="Enter your name" />
+          <button>Submit</button>
+        </div>
       </header>
     </div>
   );

@@ -28,6 +28,20 @@
   color: #61dafb;
 }
 
+.chat-box{
+  border: black solid 1px;
+  width: 65%;
+  height: 300px;
+  background-color: white;
+  overflow-y: scroll;
+}
+
+.chat-box p{
+  color: black;
+  padding: 0 0 0 0 !important;
+  margin: 0 0 0 0 !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
