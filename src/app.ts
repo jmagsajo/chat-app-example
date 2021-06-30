@@ -3,6 +3,7 @@ import * as mongoose from "mongoose";
 import * as express from "express";
 import * as dotenv from "dotenv";
 import { Server } from "http";
+import { chatRoutes } from "./routes/chatRoutes";
 
 class App {
 
@@ -23,7 +24,8 @@ class App {
   
   public async startServer() {
 		await this.connectDB();
-
+		this.app.use(express.json({ limit: "50mb" }));
+    	this.app.use(express.urlencoded({ limit: "50mb", extended: false }));
 		this.server = this.app.listen(this.port, () => {
 			console.log(`Listening at port ${this.port}`);
 		});
@@ -60,8 +62,13 @@ class App {
     });
   }
 
+  public routes(): void {
+    this.app.use("/api", new chatRoutes().router);
+  }
+
   public async run() {
     await this.startServer();
+	await this.routes();
     await this.socketEvents();
   }
   
