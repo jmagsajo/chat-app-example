@@ -19,5 +19,5 @@ npm start
 #reactjs installtion (FE side)
 cd chat then run npm install
 
-# ract: start
+#reactjs: run
 npm start
