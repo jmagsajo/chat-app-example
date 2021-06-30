@@ -1,16 +1,22 @@
 import {
     FETCH_CHATS,
     SEND_CHAT,
+    chatTypes,
     ChatDispatchTypes
 } from "../actions/chatType"
 
-const chats = {};
+interface DefaultStateI {
+    chats?: chatTypes[]
+}
+
+const chats : DefaultStateI = {};
 
 const chatReducer = (state = chats, action: ChatDispatchTypes) => {
     switch (action.type) {
         case FETCH_CHATS:
-            state = action.payload
-            return state
+            return {
+                chats: action.payload
+            }
         case SEND_CHAT:
             return state
         default:

@@ -7,10 +7,8 @@ import {
 import axios from "axios";
 
 export const getChats = () => async (dispatch: Dispatch<ChatDispatchTypes>) => {
-  
     try {   
         const res = await axios.get(process.env.REACT_APP_API_BASE_URL + `/api/chats`);
-        
         dispatch({
             type: FETCH_CHATS,
             payload: res.data.data
