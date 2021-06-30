@@ -14,10 +14,12 @@ npm run build
 
 # node: start
 npm start
-```
+
 
 #reactjs installtion (FE side)
 cd chat then run npm install
 
 #reactjs: run
 npm start
+
+```
