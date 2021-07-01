@@ -6,20 +6,12 @@ import {RootStore} from "./Store";
 import * as  chatCreator  from "./actions/chatCreator";
 
 function App() {
-  
-  const server_url : any = process.env.REACT_APP_API_BASE_URL;
-  const socket = io(server_url);
+
   const dispatch = useDispatch();
 
   const chathistory = useSelector((state: RootStore) => state.chats);
   
   console.log("state: ", chathistory)
-
-  socket.on("chat", (chat) => {
-    console.log(chat);
-    const mydiv : any = document.getElementById("chat-box");
-    mydiv.innerHTML += `<p><b>${chat.name}</b>: ${chat.message}</p>`;
-  });
 
   const [state, setState] = React.useState({
     name: "",
@@ -37,8 +29,8 @@ function App() {
   const sendChat = () => async (e: React.FormEvent) => {
     e.preventDefault();
     if(state.name && state.message){
-      await dispatch( chatCreator.sendChat( {name: state.name, message: state.message} ) );
-      socket.emit("sendchat", {name: state.name, message: state.message});
+      await dispatch( chatCreator.sendChat( {name: state.name, message: state.message} ) )
+      emitter({name: state.name, message: state.message})
       setState({
         ...state,
         message: ''
@@ -49,8 +41,27 @@ function App() {
   React.useEffect(() => {
     // fetch saved chats in chat collection
     dispatch(chatCreator.getChats())
+
+    const server_url : any = process.env.REACT_APP_API_BASE_URL;
+    const socket = io(server_url);
+
+    socket.on("chat", (chat) => {
+      console.log(chat);
+      const mydiv: any = document.getElementById("chat-box");
+      mydiv.innerHTML += `<p><b>${chat.name}</b>: ${chat.message}</p>`;
+
+      const objDiv: any = document.getElementById("chat-box");
+      objDiv.scrollTop = objDiv.scrollHeight;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const emitter = (data: any) => {
+    const server_url : any = process.env.REACT_APP_API_BASE_URL;
+    const socket = io(server_url);
+
+    socket.emit("sendchat", {name: data.name, message: data.message});
+  }
   
   return (
     <div className="App">
@@ -75,7 +86,8 @@ function App() {
           className="message" 
           id="message" 
           placeholder="Enter your message" 
-          onChange={handleChange} 
+          onChange={handleChange}
+          value={state.message}
           /></p>
           <p><button onClick={sendChat()}>Submit</button></p>
         </div>

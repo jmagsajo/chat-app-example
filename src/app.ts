@@ -58,7 +58,7 @@ class App {
     this.io.on("connection", (socket: Socket, io: SocketServer = this.io) => {
 		console.log("a user connected");
 		socket.on("sendchat", (chat) => {
-			socket.emit('chat', chat);
+			io.sockets.emit('chat', chat);
 		});
     });
   }
