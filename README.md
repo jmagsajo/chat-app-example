@@ -1,4 +1,4 @@
-# vue-portfolio
+# Basic Chat application
 
 > A simple chat app
 > 
